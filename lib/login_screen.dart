@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String? _errorMessage;
+
+  void _login() {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text;
+    if (username == 'conductor' && password == '1234') {
+      setState(() => _errorMessage = null);
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      setState(() => _errorMessage = 'Usuario o contraseña incorrectos');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Esta es la clave: el fondo principal es blanco
-      backgroundColor: Colors.white, 
+      backgroundColor: Colors.white,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          
-          // ***** CAMBIO CLAVE AQUÍ *****
-          // Envolvemos la onda superior en un Positioned
-          // para "anclarla" arriba y evitar que llene toda la pantalla.
           Positioned(
             top: 0,
             left: 0,
@@ -22,10 +37,10 @@ class LoginScreen extends StatelessWidget {
             child: ClipPath(
               clipper: TopWaveClipper(),
               child: Container(
-                height: 120, // Altura de la onda superior
+                height: 120,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFFFFA07A), Color(0xFFFF7F50)], // Gradiente coral/naranja
+                    colors: [Color(0xFFFFA07A), Color(0xFFFF7F50)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -33,8 +48,6 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-          
-          // Onda inferior (Azul) - Esta ya estaba bien
           Positioned(
             bottom: 0,
             left: 0,
@@ -42,10 +55,10 @@ class LoginScreen extends StatelessWidget {
             child: ClipPath(
               clipper: BottomWaveClipper(),
               child: Container(
-                height: 150, 
+                height: 150,
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF87CEEB), Color(0xFF6495ED)], // Gradiente azul
+                    colors: [Color(0xFF87CEEB), Color(0xFF6495ED)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -53,10 +66,6 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
-
-          //--- Contenido (Formulario de Login) ---
-          // Este SingleChildScrollView se mostrará sobre el fondo
-          // blanco del Scaffold.
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -78,6 +87,7 @@ class LoginScreen extends StatelessWidget {
 
                   // Campo de Usuario
                   TextFormField(
+                    controller: _usernameController,
                     decoration: InputDecoration(
                       labelText: 'Username',
                       prefixIcon: const Icon(Icons.person_outline),
@@ -93,6 +103,7 @@ class LoginScreen extends StatelessWidget {
 
                   // Campo de Contraseña
                   TextFormField(
+                    controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -122,6 +133,16 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
 
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: Center(
+                        child: Text(
+                          _errorMessage!,
+                          style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   // Botón de Login (circular)
                   Center(
                     child: Container(
@@ -145,9 +166,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       child: IconButton(
                         icon: const Icon(Icons.arrow_forward, color: Colors.white),
-                        onPressed: () {
-                          // Acción de Login
-                        },
+                        onPressed: _login,
                       ),
                     ),
                   ),

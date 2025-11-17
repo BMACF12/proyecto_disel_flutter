@@ -1,3 +1,46 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub/
+build/
+
+# Visual Studio Code
+.vscode/
+
+# IntelliJ related
+*.iml
+.idea/
+
+# Android Studio
+local.properties
+
+# iOS
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/ServiceDefinitions.json
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Flutter/ephemeral/
+
+# macOS
+macos/Flutter/ephemeral/
+
+# Linux
+linux/flutter/ephemeral/
+
+# Windows
+windows/flutter/ephemeral/
+
+# Web
+web/generated/
+
+# Others
+*.log
+*.tmp
+*.swp
+
+# By default, ignore generated plugin registrant files
+**/generated_plugin_registrant.*
 # Miscellaneous
 *.class
 *.log
